@@ -1,28 +1,28 @@
-import kotlin.concurrent.thread
-import kotlin.system.measureTimeMillis
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 fun main() {
-    val timeMillis = measureTimeMillis {
+    GlobalScope.launch {
         funA()
-        Thread.sleep(1300) //blocking main
     }
-    println(timeMillis)
+    Thread.sleep(2300)
     println("Exiting main...")
 }
 
-fun funA() {
+suspend fun funA() {
     println("start....")
-    thread { funB() } //thread{} is an extension function to // create a thread and start it
-    thread { funC() }
+    println(funB())
+    println(funC())
     println("......end")
 }
 
-fun funB() {
-    Thread.sleep(1000)
-    println("Hello")
+suspend fun funB(): String {
+    delay(1000)
+    return "Hello"
 }
 
-fun funC() {
-    Thread.sleep(1000)
-    println("World!")
+suspend fun funC(): String {
+    delay(1000)
+    return "World!"
 }
