@@ -41,3 +41,9 @@ fun main() = runBlocking<Unit> {
 //onCompletion ---> onComplete
 //catch and collect are some how like operators, their order matters
 //launchIn(this) ---> subscribe() -> it immediately subscribe and launch the stream
+
+suspend inline fun measureTimeMillisCoroutine(crossinline block: suspend () -> Unit): Long {
+    val start = System.currentTimeMillis()
+    block()
+    return System.currentTimeMillis() - start
+}

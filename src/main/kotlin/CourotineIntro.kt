@@ -1,10 +1,12 @@
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.system.measureTimeMillis
 
 fun main() {
     GlobalScope.launch {
-        funA()
+        val millisCoroutine = measureTimeMillisCoroutine { funA() }
+        println("Took $millisCoroutine")
     }
     Thread.sleep(2300)
     println("Exiting main...")
@@ -12,8 +14,7 @@ fun main() {
 
 suspend fun funA() {
     println("start....")
-    println(funB())
-    println(funC())
+    println(funB() + funC())
     println("......end")
 }
 
