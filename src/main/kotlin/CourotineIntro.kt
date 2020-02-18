@@ -1,7 +1,4 @@
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.system.measureTimeMillis
+import kotlinx.coroutines.*
 
 fun main() {
     GlobalScope.launch {
@@ -14,7 +11,10 @@ fun main() {
 
 suspend fun funA() {
     println("start....")
-    println(funB() + funC())
+
+    val helloDeffered = GlobalScope.async { funB() }
+    val worldDeffered = GlobalScope.async { funC() }
+    println("${helloDeffered.await()} ${worldDeffered.await()}")
     println("......end")
 }
 
