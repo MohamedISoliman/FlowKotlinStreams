@@ -5,7 +5,6 @@ fun numbers(): Flow<Int> = flow {
     //    try {
     emit(1)
     emit(2)
-    println("This line will not execute")
     emit(3)
 //    } catch (e : Exception) {
 //        println(e.message)
@@ -15,15 +14,26 @@ fun numbers(): Flow<Int> = flow {
 }
 
 fun main() = runBlocking<Unit> {
-    numbers()
-        .take(2) // take only the first two.
-        .onEach {
-            throw IllegalStateException()
-            it
+    //    numbers()
+//        .map { it * 2 }
+//        .catch {}
+//        .scan(0) { o1, o2 -> o1 + o2 }
+//        .collect {
+//            println(it)
+//        }
+//
+//    val toList = flowOf(1, 2, 3).scan(emptyList<Int>()) { acc, value -> acc + value }.toList()
+//    println(toList)
+
+    (0..100).asFlow()
+        .filter { it % 2 == 0 }
+        .flatMapConcat {
+            (0..it).asFlow().map { "." }
+                .scan("") { accumulator, value -> accumulator + value }
         }
-        .onCompletion { println("Completed $it") }
-        .catch { println(it) }
-        .collect { println(it) }
+        .onEach {  }
+        .onCompletion { it}
+        .launchIn(this)
 
 
 }

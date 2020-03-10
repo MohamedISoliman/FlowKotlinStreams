@@ -1,8 +1,22 @@
 import kotlinx.coroutines.*
 
 fun main() {
-    WelcomingScreen().onCreate()
-    Thread.sleep(2000)
+    val fib = sequence {
+        var cur = 1
+        var next = 1
+        while (true) {
+            yield(cur)
+            val temp = cur + next
+            cur = next
+            next = temp
+        }
+    }
+
+    val iter = fib.iterator()
+
+    repeat(10) {
+        println(iter.next())
+    }
 }
 
 suspend fun funA(): String {
